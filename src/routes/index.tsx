@@ -111,7 +111,7 @@ function Canopy() {
     return () => window.removeEventListener("canopy:soon", handler);
   }, []);
 
-  const totalStages = 5;
+  const totalStages = 6;
   const progress = Math.min(stage, totalStages) / totalStages;
 
   return (
@@ -137,16 +137,36 @@ function Canopy() {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 pb-24 pt-6 md:px-10">
         {stage === 0 && <Landing onStart={() => setStage(1)} />}
-        {stage > 0 && stage < 6 && (
+        {stage > 0 && stage < 7 && (
           <div className="mx-auto mt-8 max-w-3xl">
             <ProgressBar value={progress} stage={stage} />
             <div key={stage} className="animate-fade-up mt-8 rounded-3xl border-2 border-border/70 bg-card/80 p-6 shadow-[0_20px_60px_-20px_rgba(74,103,65,0.25)] backdrop-blur-sm md:p-10">
               {stage === 1 && (
                 <Step
-                  eyebrow="Step 01 · Roots"
+                  eyebrow="Step 01 · Welcome"
+                  title="👋 Let's get started"
+                  subtitle="We need your email to link your Ground Check results to your beta access."
+                  onNext={() => setStage(2)}
+                  canNext={!!a.email && a.email.includes("@")}
+                >
+                  <Field label="Your email address (required)">
+                    <input
+                      type="email"
+                      value={a.email}
+                      onChange={(e) => set("email", e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full rounded-2xl border-2 border-border bg-background/60 p-4 font-body text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15"
+                    />
+                  </Field>
+                </Step>
+              )}
+              {stage === 2 && (
+                <Step
+                  eyebrow="Step 02 · Roots"
                   title="🧰 What's in your toolbelt?"
                   subtitle="Tell us who's digging."
-                  onNext={() => setStage(2)}
+                  onBack={() => setStage(1)}
+                  onNext={() => setStage(3)}
                   canNext={!!a.role}
                 >
                   <Field label="Your role">
@@ -160,13 +180,13 @@ function Canopy() {
                   </Field>
                 </Step>
               )}
-              {stage === 2 && (
+              {stage === 3 && (
                 <Step
-                  eyebrow="Step 02 · Terrain"
+                  eyebrow="Step 03 · Terrain"
                   title="🕳️ Where do you usually dig?"
                   subtitle="Your collaboration habits."
-                  onBack={() => setStage(1)}
-                  onNext={() => setStage(3)}
+                  onBack={() => setStage(2)}
+                  onNext={() => setStage(4)}
                   canNext={!!a.firstLook}
                 >
                   <Field label="When you have an idea, where do you first look for a collaborator?">
@@ -182,13 +202,13 @@ function Canopy() {
                   </Field>
                 </Step>
               )}
-              {stage === 3 && (
+              {stage === 4 && (
                 <Step
-                  eyebrow="Step 03 · Soil test"
+                  eyebrow="Step 04 · Soil test"
                   title="🌱 Test the soil"
                   subtitle="How would you use a CANOPY sandbox?"
-                  onBack={() => setStage(2)}
-                  onNext={() => setStage(4)}
+                  onBack={() => setStage(3)}
+                  onNext={() => setStage(5)}
                   canNext
                 >
                   <SliderRow
@@ -208,13 +228,13 @@ function Canopy() {
                   />
                 </Step>
               )}
-              {stage === 4 && (
+              {stage === 5 && (
                 <Step
-                  eyebrow="Step 04 · Water"
+                  eyebrow="Step 05 · Water"
                   title="💧 Water the seed"
                   subtitle="Your honest commitment level."
-                  onBack={() => setStage(3)}
-                  onNext={() => setStage(5)}
+                  onBack={() => setStage(4)}
+                  onNext={() => setStage(6)}
                   canNext={!!a.launch}
                 >
                   <Field label="If CANOPY launched in beta next month, what would you do?">
@@ -225,13 +245,13 @@ function Canopy() {
                   </Field>
                 </Step>
               )}
-              {stage === 5 && (
+              {stage === 6 && (
                 <Step
-                  eyebrow="Step 05 · Magic wand"
+                  eyebrow="Step 06 · Magic wand"
                   title="🧞 Magic wand"
                   subtitle="One wish for CANOPY."
-                  onBack={() => setStage(4)}
-                  onNext={() => setStage(6)}
+                  onBack={() => setStage(5)}
+                  onNext={() => setStage(7)}
                   canNext
                   nextLabel="🌳 Plant my answers"
                 >
@@ -244,21 +264,12 @@ function Canopy() {
                       className="w-full rounded-2xl border-2 border-border bg-background/60 p-4 font-body text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15"
                     />
                   </Field>
-                  <Field label="Leave your email to get a personalised preview when CANOPY opens.">
-                    <input
-                      type="email"
-                      value={a.email}
-                      onChange={(e) => set("email", e.target.value)}
-                      placeholder="you@example.com"
-                      className="w-full rounded-2xl border-2 border-border bg-background/60 p-4 font-body text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15"
-                    />
-                  </Field>
                 </Step>
               )}
             </div>
           </div>
         )}
-        {stage === 6 && <Result answers={a} onRestart={() => { setA(initial); setStage(0); }} />}
+        {stage === 7 && <Result answers={a} onRestart={() => { setA(initial); setStage(0); }} />}
       </div>
 
       <Footer />
@@ -875,17 +886,14 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
       localStorage.setItem("canopy_ground_check", JSON.stringify({ answers, ts: Date.now() }));
     } catch { /* storage unavailable */ }
 
-    const endpoint = import.meta.env["VITE_FORMSPREE_GROUND_CHECK"] as string | undefined;
-    if (endpoint) {
-      setSubmitState("submitting");
-      fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...answers, _ts: new Date().toISOString() }),
-      })
-        .then((r) => setSubmitState(r.ok ? "done" : "error"))
-        .catch(() => setSubmitState("error"));
-    }
+    setSubmitState("submitting");
+    fetch("/api/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(answers),
+    })
+      .then((r) => setSubmitState(r.ok ? "done" : "error"))
+      .catch(() => setSubmitState("error"));
   }, [answers]);
 
   useEffect(() => {

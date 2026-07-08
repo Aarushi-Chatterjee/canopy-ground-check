@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+dist-ssr/
+.output/
+.vinxi/
+
+# Environment variables — NEVER commit real values
+.env
+.env.local
+.env.*.local
+
+# Formspree CSV / JSON exports — prevent accidental email list commits
+*.csv
+formspree-export-*.json
+
+# Editor / OS artifacts
+.DS_Store
+Thumbs.db
+*.suo
+.idea/
+.vscode/settings.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# TypeScript cache
+*.tsbuildinfo

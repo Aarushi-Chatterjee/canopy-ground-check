@@ -1,0 +1,6 @@
+# Normalize line endings to LF for all text files in the repo
+* text=auto eol=lf
+
+# Force binary for lock files
+bun.lock binary
+package-lock.json text eol=lf

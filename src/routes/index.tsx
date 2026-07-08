@@ -38,6 +38,7 @@ const initial: Answers = {
 const roles = [
   "🧠 AI/ML Researcher",
   "🛠️ Engineer / Developer",
+  "🔌 Hardware Engineer",
   "🌍 Domain Expert",
   "🚀 Founder",
   "🎨 Designer / Product",
@@ -270,103 +271,134 @@ function Canopy() {
 function Landing({ onStart }: { onStart: () => void }) {
   return (
     <section className="relative overflow-hidden">
-      <div className="grid gap-6 pt-8 md:grid-cols-12 md:gap-6 md:pt-12">
+      <div className="pt-8 md:pt-12">
 
         {/* Tag row */}
-        <div className="md:col-span-12">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full border-2 border-secondary/40 bg-card/70 px-4 py-1.5 text-sm text-secondary backdrop-blur">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-primary" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+        <div className="mb-6 flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full border-2 border-secondary/40 bg-card/70 px-4 py-1.5 text-sm text-secondary backdrop-blur">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-primary" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            Ground Check
+          </span>
+          <span className="rounded-full border border-border bg-card/50 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur">
+            AI × Sustainability sandbox
+          </span>
+        </div>
+
+        {/* ── DESKTOP: true two-column side-by-side ── */}
+        <div className="hidden md:grid md:grid-cols-12 md:gap-8 md:items-start">
+
+          {/* LEFT: headline + body + CTA */}
+          <div className="md:col-span-5 flex flex-col">
+            <h1 className="text-display text-[clamp(2rem,5.5vw,5.5rem)] leading-[0.93]">
+              <span className="block text-foreground">PLANT</span>
+              <span className="-mt-1 block text-primary sm:-mt-2 sm:translate-x-6 md:translate-x-10">A SEED</span>
+              <span className="-mt-1 block text-foreground sm:-mt-2 sm:translate-x-1 md:translate-x-2">
+                IN THE <em className="not-italic text-secondary">CANOPY.</em>
               </span>
-              Ground Check
-            </span>
-            <span className="rounded-full border border-border bg-card/50 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur">
-              AI × Sustainability sandbox
-            </span>
+            </h1>
+            <p className="mt-6 max-w-sm text-base leading-relaxed text-muted-foreground md:text-lg">
+              Developers. ML engineers. AI researchers. Designers. Domain experts.
+              If you're quietly trying to point AI at the planet's hardest problems
+              — we have a 3-minute question that could shape something real.
+            </p>
+            <div className="mt-8 flex items-center gap-4">
+              <button
+                onClick={onStart}
+                className="group relative inline-flex items-center justify-center gap-3 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/60 transition hover:-translate-y-0.5 hover:shadow-primary/80"
+              >
+                <span className="text-display tracking-wide">START THE GROUND CHECK</span>
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary-foreground/15 transition group-hover:translate-x-1">→</span>
+              </button>
+              <span className="text-sm text-muted-foreground">~3 min · 5 stages</span>
+            </div>
+          </div>
+
+          {/* RIGHT: card collage — starts at same top as headline */}
+          <div className="md:col-span-7 relative h-full min-h-[420px]">
+            {/* Hypothesis card — top left of the right column, slight tilt */}
+            <div className="absolute top-0 left-0 w-[55%] -rotate-[2deg] z-20 transition-transform hover:-rotate-[0.5deg]">
+              <HypothesisCard />
+            </div>
+            {/* Seed card — top right, counter-tilted */}
+            <div className="absolute top-0 right-0 w-[38%] rotate-[4deg] z-10 transition-transform hover:rotate-[2deg]">
+              <SeedCard />
+            </div>
+            {/* Canopy card — bottom center, slight positive tilt */}
+            <div className="absolute bottom-0 left-[20%] w-[55%] rotate-[2deg] z-30 transition-transform hover:rotate-[0.5deg]">
+              <div className="rounded-3xl border-2 border-secondary bg-secondary p-6 text-secondary-foreground shadow-[0_20px_60px_-20px_rgba(74,103,65,0.4)]">
+                <div className="text-3xl">🌱</div>
+                <div className="text-display mt-3 text-2xl leading-tight">A canopy, not a feed.</div>
+                <div className="mt-2 text-sm opacity-85">
+                  No dopamine loops. Just briefs, project rooms, and the small joy of
+                  finding the one collaborator who gets it.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Big display headline */}
-        <div className="md:col-span-8">
-          <h1 className="text-display text-[clamp(2.5rem,8vw,7.5rem)] leading-[0.95]">
+        {/* ── MOBILE: vertical stack ── */}
+        <div className="flex flex-col gap-6 md:hidden">
+          <h1 className="text-display text-[clamp(2.5rem,12vw,5rem)] leading-[0.93]">
             <span className="block text-foreground">PLANT</span>
-            <span className="-mt-1 block text-primary sm:-mt-2 sm:translate-x-8 md:translate-x-16">A SEED</span>
-            <span className="-mt-1 block text-foreground sm:-mt-2 sm:translate-x-2 md:translate-x-4">
+            <span className="-mt-1 block text-primary sm:translate-x-6">A SEED</span>
+            <span className="-mt-1 block text-foreground sm:translate-x-1">
               IN THE <em className="not-italic text-secondary">CANOPY.</em>
             </span>
           </h1>
-        </div>
-
-        {/* SeedCard — hidden on mobile, shown on desktop beside headline */}
-        <div className="hidden md:flex md:col-span-4 md:justify-end">
-          <div className="md:absolute md:right-0 md:top-2 md:-rotate-3">
+          <p className="text-base leading-relaxed text-muted-foreground">
+            Developers. ML engineers. AI researchers. Designers. Domain experts.
+            If you're quietly trying to point AI at the planet's hardest problems
+            — we have a 3-minute question that could shape something real.
+          </p>
+          <div className="w-full">
+            <HypothesisCard />
+          </div>
+          <div className="flex justify-center w-full">
             <SeedCard />
           </div>
-        </div>
-
-        {/* Body text + CTA */}
-        <div className="md:col-span-5">
-          <p className="max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
-            CANOPY is a sandbox for the researchers, engineers and domain nerds
-            quietly trying to bend AI toward a livable planet. Before we open the
-            greenhouse — we need your roots.
-          </p>
-          <div className="mt-6 flex flex-col items-stretch gap-3 sm:mt-8 sm:flex-row sm:items-center sm:gap-4">
+          <div className="w-full">
+            <div className="rounded-3xl border-2 border-secondary bg-secondary p-6 text-secondary-foreground shadow-[0_20px_60px_-20px_rgba(74,103,65,0.4)]">
+              <div className="text-3xl">🌱</div>
+              <div className="text-display mt-3 text-2xl leading-tight">A canopy, not a feed.</div>
+              <div className="mt-2 text-sm opacity-85">
+                No dopamine loops. Just briefs, project rooms, and the small joy of
+                finding the one collaborator who gets it.
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-stretch gap-3">
             <button
               onClick={onStart}
-              className="group relative inline-flex items-center justify-center gap-3 rounded-full bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/60 transition hover:-translate-y-0.5 hover:shadow-primary/80 sm:px-8 sm:text-lg"
+              className="group relative inline-flex items-center justify-center gap-3 rounded-full bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/60 transition hover:-translate-y-0.5 hover:shadow-primary/80"
             >
               <span className="text-display tracking-wide">START THE GROUND CHECK</span>
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary-foreground/15 transition group-hover:translate-x-1">→</span>
             </button>
-            <span className="text-center text-sm text-muted-foreground sm:text-left">~3 min · 5 stages</span>
-          </div>
-        </div>
-
-        {/* SeedCard — mobile only (appears after CTA, before feature block) */}
-        <div className="flex justify-center md:hidden">
-          <SeedCard />
-        </div>
-
-        {/* Feature block */}
-        <div className="md:col-span-4 md:col-start-8 md:-mt-10">
-          <div className="rounded-3xl border-2 border-secondary bg-secondary p-6 text-secondary-foreground shadow-[0_20px_60px_-20px_rgba(74,103,65,0.5)] sm:rotate-1 md:rotate-2">
-            <div className="text-3xl">🌱</div>
-            <div className="text-display mt-3 text-2xl leading-tight">A canopy, not a feed.</div>
-            <div className="mt-2 text-sm opacity-85">
-              No dopamine loops. Just briefs, project rooms, and the small joy of
-              finding the one collaborator who gets it.
-            </div>
+            <span className="text-center text-sm text-muted-foreground">~3 min · 5 stages</span>
           </div>
         </div>
 
         {/* Marquee ticker */}
-        <div className="min-w-0 md:col-span-12">
-          <div className="mt-4 overflow-hidden rounded-3xl border-2 border-border bg-card/60 py-3 backdrop-blur">
-            <div className="animate-marquee flex w-max gap-8 whitespace-nowrap text-sm font-semibold md:text-base">
-              {Array.from({ length: 2 }).map((_, i) => (
-                <div key={i} className="flex gap-8">
-                  {[
-                    "🌊 Ocean ML",
-                    "🐝 Pollinator vision",
-                    "⚡ Grid RL",
-                    "🌾 Soil NLP",
-                    "🛰️ Deforestation tracking",
-                    "♻️ Circular LLMs",
-                    "💧 Water quality edge",
-                    "🏙️ Urban digital twin",
-                    "🌫️ Carbon accounting",
-                    "🔥 Wildfire prediction",
-                  ].map((t) => (
-                    <span key={t} className="text-muted-foreground">
-                      {t} <span className="text-primary">·</span>
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
+        <div className="mt-8 overflow-hidden rounded-3xl border-2 border-border bg-card/60 py-3 backdrop-blur">
+          <div className="animate-marquee flex w-max gap-8 whitespace-nowrap text-sm font-semibold md:text-base">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="flex gap-8">
+                {[
+                  "🌊 Ocean ML", "🐝 Pollinator vision", "⚡ Grid RL",
+                  "🌾 Soil NLP", "🛰️ Deforestation tracking", "♻️ Circular LLMs",
+                  "💧 Water quality edge", "🏙️ Urban digital twin",
+                  "🌫️ Carbon accounting", "🔥 Wildfire prediction",
+                ].map((t) => (
+                  <span key={t} className="text-muted-foreground">
+                    {t} <span className="text-primary">·</span>
+                  </span>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -390,6 +422,36 @@ function SeedCard() {
       <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted">
         <div className="h-full w-1/3 rounded-full bg-primary" />
       </div>
+    </div>
+  );
+}
+
+function HypothesisCard() {
+  return (
+    <div className="group relative overflow-hidden rounded-3xl border-2 border-purple-500 bg-card p-6 shadow-[0_20px_60px_-20px_rgba(168,85,247,0.25)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_80px_-20px_rgba(168,85,247,0.45)] sm:p-8">
+      {/* Ambient glow that sharpens on hover */}
+      <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 ring-1 ring-inset ring-purple-500/25 transition-opacity duration-500 group-hover:opacity-100" />
+
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="text-4xl">🧪</div>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+          </span>
+          3–5 min
+        </span>
+      </div>
+
+      <div className="text-display mt-5 text-2xl leading-tight text-foreground sm:text-3xl">
+        We’re testing a hypothesis.
+      </div>
+      <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground sm:text-base">
+        Before we build a community for AI builders tackling climate and
+        sustainability — we want to know if people like{" "}
+        <em className="not-italic font-semibold text-foreground">you</em> actually want it.
+        Every response directly shapes what gets built.
+      </p>
     </div>
   );
 }

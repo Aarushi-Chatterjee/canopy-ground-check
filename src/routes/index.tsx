@@ -134,7 +134,7 @@ function Canopy() {
         />
       )}
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 pb-24 pt-6 md:px-10">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 pb-24 pt-6 md:px-10">
         {stage === 0 && <Landing onStart={() => setStage(1)} />}
         {stage > 0 && stage < 6 && (
           <div className="mx-auto mt-8 max-w-3xl">
@@ -289,17 +289,17 @@ function Landing({ onStart }: { onStart: () => void }) {
 
         {/* Big display headline — broken grid */}
         <div className="md:col-span-8">
-          <h1 className="text-display text-[clamp(3.5rem,10vw,9rem)]">
+          <h1 className="text-display text-[clamp(2.75rem,9vw,7.5rem)] leading-none">
             <span className="block text-foreground">PLANT</span>
-            <span className="-mt-2 block translate-x-6 text-primary md:translate-x-16">A SEED</span>
-            <span className="-mt-2 block text-foreground md:translate-x-4">
+            <span className="-mt-2 block translate-x-3 sm:translate-x-8 md:translate-x-16 text-primary">A SEED</span>
+            <span className="-mt-2 block text-foreground translate-x-1 sm:translate-x-2 md:translate-x-4">
               IN THE <em className="not-italic text-secondary">CANOPY.</em>
             </span>
           </h1>
         </div>
 
         {/* Floating badge card — offset right */}
-        <div className="relative md:col-span-4">
+        <div className="relative md:col-span-4 flex justify-center md:justify-end">
           <div className="md:absolute md:right-0 md:top-2 md:-rotate-3">
             <SeedCard />
           </div>
@@ -307,26 +307,26 @@ function Landing({ onStart }: { onStart: () => void }) {
 
         {/* Broken-grid mid section */}
         <div className="mt-4 md:col-span-5 md:mt-0">
-          <p className="max-w-md text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="max-w-md text-base sm:text-lg leading-relaxed text-muted-foreground md:text-xl">
             CANOPY is a sandbox for the researchers, engineers and domain nerds
             quietly trying to bend AI toward a livable planet. Before we open the
             greenhouse — we need your roots.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap items-center gap-4">
             <button
               onClick={onStart}
-              className="group relative inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/60 transition hover:-translate-y-0.5 hover:shadow-primary/80"
+              className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-primary px-6 sm:px-8 py-4 text-base sm:text-lg font-semibold text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/60 transition hover:-translate-y-0.5 hover:shadow-primary/80"
             >
               <span className="text-display tracking-wide">START THE GROUND CHECK</span>
               <span className="grid h-8 w-8 place-items-center rounded-full bg-primary-foreground/15 transition group-hover:translate-x-1">→</span>
             </button>
-            <span className="text-sm text-muted-foreground">~3 min · 5 stages</span>
+            <span className="text-sm text-muted-foreground text-center sm:text-left">~3 min · 5 stages</span>
           </div>
         </div>
 
         {/* Big offset feature block — 'A canopy, not a feed' */}
         <div className="md:col-span-4 md:col-start-8 md:-mt-10">
-          <div className="rotate-2 rounded-3xl border-2 border-secondary bg-secondary p-6 text-secondary-foreground shadow-[0_20px_60px_-20px_rgba(74,103,65,0.5)]">
+          <div className="rotate-1 sm:rotate-2 rounded-3xl border-2 border-secondary bg-secondary p-6 text-secondary-foreground shadow-[0_20px_60px_-20px_rgba(74,103,65,0.5)]">
             <div className="text-3xl">🌱</div>
             <div className="text-display mt-3 text-2xl leading-tight">A canopy, not a feed.</div>
             <div className="mt-2 text-sm opacity-85">
@@ -455,7 +455,7 @@ function ComingSoonModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-up">
       <div className="absolute inset-0 bg-foreground/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-md rounded-3xl border-2 border-border bg-card p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)]">
+      <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl border-2 border-border bg-card p-6 sm:p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)]">
         <div className="flex items-start justify-between gap-4">
           <div className="text-5xl">{data.emoji}</div>
           <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
@@ -496,7 +496,7 @@ function EarlyAccessModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-up">
       <div className="absolute inset-0 bg-foreground/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-md rounded-3xl border-2 border-border bg-card p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)]">
+      <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl border-2 border-border bg-card p-6 sm:p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)]">
         {!submitted ? (
           <>
             <div className="flex items-start justify-between gap-4">
@@ -561,7 +561,7 @@ function EarlyAccessModal({
 function Nav({ onGroundCheck, onEarlyAccess }: { onGroundCheck: () => void; onEarlyAccess: () => void }) {
   const link = "transition hover:text-foreground cursor-pointer";
   return (
-    <header className="relative z-20 mx-auto flex max-w-[1400px] items-center justify-between px-6 pt-6 md:px-10">
+    <header className="relative z-20 mx-auto flex max-w-[1400px] items-center justify-between px-4 sm:px-6 pt-6 md:px-10">
       <div className="flex items-center gap-2">
         <div
           aria-label="CANOPY home"
@@ -597,7 +597,7 @@ function Nav({ onGroundCheck, onEarlyAccess }: { onGroundCheck: () => void; onEa
         </button>
         <button
           onClick={onEarlyAccess}
-          className="rounded-full border-2 border-foreground bg-background px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-foreground hover:text-background"
+          className="rounded-full border-2 border-foreground bg-background px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-foreground transition hover:bg-foreground hover:text-background"
         >
           Early access
         </button>
@@ -609,8 +609,8 @@ function Nav({ onGroundCheck, onEarlyAccess }: { onGroundCheck: () => void; onEa
 function Footer() {
   const link = "transition hover:text-foreground cursor-pointer";
   return (
-    <footer className="relative z-10 mx-auto mt-16 max-w-[1400px] border-t border-border/60 px-6 py-8 text-sm text-muted-foreground md:px-10">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <footer className="relative z-10 mx-auto mt-16 max-w-[1400px] border-t border-border/60 px-4 sm:px-6 py-8 text-sm text-muted-foreground md:px-10">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div>© CANOPY · Growing slowly, on purpose.</div>
         <div className="flex gap-5">
           <button className={link} onClick={() => openSoon("social")}>LinkedIn</button>
@@ -663,19 +663,19 @@ function Step({
   return (
     <div>
       <div className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">{eyebrow}</div>
-      <h2 className="text-display mt-2 text-4xl md:text-5xl">{title}</h2>
-      <p className="mt-2 text-muted-foreground">{subtitle}</p>
+      <h2 className="text-display mt-2 text-3xl sm:text-4xl md:text-5xl">{title}</h2>
+      <p className="mt-2 text-sm sm:text-base text-muted-foreground">{subtitle}</p>
       <div className="mt-6 space-y-2">{children}</div>
-      <div className="mt-10 flex items-center justify-between gap-3">
+      <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
         {onBack ? (
-          <button onClick={onBack} className="rounded-full border-2 border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition hover:border-foreground">
+          <button onClick={onBack} className="rounded-full border-2 border-border bg-background px-4 sm:px-5 py-2.5 text-sm font-semibold text-foreground transition hover:border-foreground">
             ← Back
           </button>
         ) : <span />}
         <button
           onClick={onNext}
           disabled={!canNext}
-          className="text-display inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm tracking-wide text-background transition hover:-translate-y-0.5 hover:bg-primary disabled:cursor-not-allowed disabled:opacity-40"
+          className="text-display inline-flex items-center gap-2 rounded-full bg-foreground px-5 sm:px-6 py-3 text-sm tracking-wide text-background transition hover:-translate-y-0.5 hover:bg-primary disabled:cursor-not-allowed disabled:opacity-40"
         >
           {nextLabel ?? "Continue →"}
         </button>
@@ -725,8 +725,8 @@ function SliderRow({
   q, left, right, value, onChange,
 }: { q: string; left: string; right: string; value: number; onChange: (v: number) => void }) {
   return (
-    <div className="mt-5 rounded-2xl border border-border bg-background/40 p-5">
-      <div className="text-sm font-medium">{q}</div>
+    <div className="mt-5 rounded-2xl border border-border bg-background/40 p-4 sm:p-5">
+      <div className="text-sm font-medium leading-snug">{q}</div>
       <input
         type="range" min={0} max={10} value={value}
         onChange={(e) => onChange(Number(e.target.value))}
@@ -734,10 +734,10 @@ function SliderRow({
         aria-valuenow={value}
         className="mt-4 h-2 w-full cursor-pointer appearance-none rounded-full bg-gradient-to-r from-muted via-accent to-primary accent-primary"
       />
-      <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-        <span>{left}</span>
-        <span className="text-display text-primary">{value}</span>
-        <span>{right}</span>
+      <div className="mt-2 flex items-center justify-between gap-2 text-xs text-muted-foreground">
+        <span className="max-w-[40%] leading-tight">{left}</span>
+        <span className="text-display shrink-0 text-primary">{value}</span>
+        <span className="max-w-[40%] text-right leading-tight">{right}</span>
       </div>
     </div>
   );
@@ -852,7 +852,7 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
   return (
     <section className="mx-auto mt-8 max-w-3xl animate-fade-up text-center">
       <div className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary">Result</div>
-      <h2 className="text-display mt-3 text-5xl md:text-6xl">
+      <h2 className="text-display mt-3 break-words text-3xl sm:text-4xl md:text-6xl">
         {headline.split(" ").slice(0, -3).join(" ")}{" "}
         <span className="text-primary">{headline.split(" ").slice(-3).join(" ")}</span>
       </h2>
@@ -886,7 +886,7 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
             ) : " — finish the form with your email to get first access"}.
             Thanks for digging with us.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
             <button
               onClick={onRestart}
               className="rounded-full border-2 border-foreground bg-background px-5 py-3 text-sm font-semibold transition hover:bg-foreground hover:text-background"

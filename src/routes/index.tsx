@@ -146,6 +146,7 @@ function Canopy() {
                   eyebrow="Step 01 · Welcome"
                   title="👋 Let's get started"
                   subtitle="We need your email to link your Ground Check results to your beta access."
+                  onBack={() => setStage(0)}
                   onNext={() => setStage(2)}
                   canNext={!!a.email && a.email.includes("@")}
                 >

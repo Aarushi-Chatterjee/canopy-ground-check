@@ -269,8 +269,9 @@ function Canopy() {
 
 function Landing({ onStart }: { onStart: () => void }) {
   return (
-    <section className="relative">
-      <div className="grid gap-8 pt-8 md:grid-cols-12 md:gap-6 md:pt-12">
+    <section className="relative overflow-hidden">
+      <div className="grid gap-6 pt-8 md:grid-cols-12 md:gap-6 md:pt-12">
+
         {/* Tag row */}
         <div className="md:col-span-12">
           <div className="flex flex-wrap items-center gap-3">
@@ -287,46 +288,51 @@ function Landing({ onStart }: { onStart: () => void }) {
           </div>
         </div>
 
-        {/* Big display headline — broken grid */}
+        {/* Big display headline */}
         <div className="md:col-span-8">
-          <h1 className="text-display text-[clamp(2.75rem,9vw,7.5rem)] leading-none">
+          <h1 className="text-display text-[clamp(2.5rem,8vw,7.5rem)] leading-[0.95]">
             <span className="block text-foreground">PLANT</span>
-            <span className="-mt-2 block translate-x-3 sm:translate-x-8 md:translate-x-16 text-primary">A SEED</span>
-            <span className="-mt-2 block text-foreground translate-x-1 sm:translate-x-2 md:translate-x-4">
+            <span className="-mt-1 block text-primary sm:-mt-2 sm:translate-x-8 md:translate-x-16">A SEED</span>
+            <span className="-mt-1 block text-foreground sm:-mt-2 sm:translate-x-2 md:translate-x-4">
               IN THE <em className="not-italic text-secondary">CANOPY.</em>
             </span>
           </h1>
         </div>
 
-        {/* Floating badge card — offset right */}
-        <div className="relative md:col-span-4 flex justify-center md:justify-end">
+        {/* SeedCard — hidden on mobile, shown on desktop beside headline */}
+        <div className="hidden md:flex md:col-span-4 md:justify-end">
           <div className="md:absolute md:right-0 md:top-2 md:-rotate-3">
             <SeedCard />
           </div>
         </div>
 
-        {/* Broken-grid mid section */}
-        <div className="mt-4 md:col-span-5 md:mt-0">
-          <p className="max-w-md text-base sm:text-lg leading-relaxed text-muted-foreground md:text-xl">
+        {/* Body text + CTA */}
+        <div className="md:col-span-5">
+          <p className="max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
             CANOPY is a sandbox for the researchers, engineers and domain nerds
             quietly trying to bend AI toward a livable planet. Before we open the
             greenhouse — we need your roots.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap items-center gap-4">
+          <div className="mt-6 flex flex-col items-stretch gap-3 sm:mt-8 sm:flex-row sm:items-center sm:gap-4">
             <button
               onClick={onStart}
-              className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-primary px-6 sm:px-8 py-4 text-base sm:text-lg font-semibold text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/60 transition hover:-translate-y-0.5 hover:shadow-primary/80"
+              className="group relative inline-flex items-center justify-center gap-3 rounded-full bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/60 transition hover:-translate-y-0.5 hover:shadow-primary/80 sm:px-8 sm:text-lg"
             >
               <span className="text-display tracking-wide">START THE GROUND CHECK</span>
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-primary-foreground/15 transition group-hover:translate-x-1">→</span>
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary-foreground/15 transition group-hover:translate-x-1">→</span>
             </button>
-            <span className="text-sm text-muted-foreground text-center sm:text-left">~3 min · 5 stages</span>
+            <span className="text-center text-sm text-muted-foreground sm:text-left">~3 min · 5 stages</span>
           </div>
         </div>
 
-        {/* Big offset feature block — 'A canopy, not a feed' */}
+        {/* SeedCard — mobile only (appears after CTA, before feature block) */}
+        <div className="flex justify-center md:hidden">
+          <SeedCard />
+        </div>
+
+        {/* Feature block */}
         <div className="md:col-span-4 md:col-start-8 md:-mt-10">
-          <div className="rotate-1 sm:rotate-2 rounded-3xl border-2 border-secondary bg-secondary p-6 text-secondary-foreground shadow-[0_20px_60px_-20px_rgba(74,103,65,0.5)]">
+          <div className="rounded-3xl border-2 border-secondary bg-secondary p-6 text-secondary-foreground shadow-[0_20px_60px_-20px_rgba(74,103,65,0.5)] sm:rotate-1 md:rotate-2">
             <div className="text-3xl">🌱</div>
             <div className="text-display mt-3 text-2xl leading-tight">A canopy, not a feed.</div>
             <div className="mt-2 text-sm opacity-85">
@@ -336,10 +342,10 @@ function Landing({ onStart }: { onStart: () => void }) {
           </div>
         </div>
 
-        {/* Sprouts marquee — climate & sustainability issues */}
-        <div className="md:col-span-12">
-          <div className="mt-6 overflow-hidden rounded-3xl border-2 border-border bg-card/60 py-3 backdrop-blur">
-            <div className="animate-marquee flex w-max gap-8 whitespace-nowrap text-base font-semibold md:text-lg">
+        {/* Marquee ticker */}
+        <div className="min-w-0 md:col-span-12">
+          <div className="mt-4 overflow-hidden rounded-3xl border-2 border-border bg-card/60 py-3 backdrop-blur">
+            <div className="animate-marquee flex w-max gap-8 whitespace-nowrap text-sm font-semibold md:text-base">
               {Array.from({ length: 2 }).map((_, i) => (
                 <div key={i} className="flex gap-8">
                   {[
@@ -363,6 +369,7 @@ function Landing({ onStart }: { onStart: () => void }) {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );
@@ -370,7 +377,7 @@ function Landing({ onStart }: { onStart: () => void }) {
 
 function SeedCard() {
   return (
-    <div className="animate-float-slow relative w-full max-w-[16rem] overflow-hidden rounded-3xl border-2 border-primary/40 bg-card p-5 shadow-[0_20px_60px_-20px_rgba(196,101,74,0.6)]">
+    <div className="animate-float-slow w-full max-w-[16rem] overflow-hidden rounded-3xl border-2 border-primary/40 bg-card p-5 shadow-[0_20px_60px_-20px_rgba(196,101,74,0.6)]">
       <div className="flex items-center justify-between">
         <div className="text-display text-xl text-primary">SEED · 001</div>
         <span className="text-2xl">🌰</span>
@@ -386,6 +393,7 @@ function SeedCard() {
     </div>
   );
 }
+
 
 // TinyCard removed — was dead code (defined but never rendered)
 

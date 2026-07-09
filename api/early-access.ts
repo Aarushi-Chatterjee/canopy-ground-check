@@ -23,27 +23,22 @@ export default async function handler(req: Request) {
     }
 
     const body = await req.json();
+    const email = (body.email ?? '').trim().toLowerCase();
+
+    if (!email || !email.includes('@')) {
+      return new Response(JSON.stringify({ error: 'Valid email is required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const sql = neon(databaseUrl);
 
-    // Insert Ground Check answers into canopy_ground_check table
+    // Insert Early Access email into canopy_early_access table (ignore duplicates)
     await sql`
-      INSERT INTO canopy_ground_check (
-        email, role, domains, powers, first_look, barriers, build_call, matching, blog, launch, pay, wish, submitted_at
-      ) VALUES (
-        ${body.email},
-        ${body.role},
-        ${body.domains || []},
-        ${body.powers || []},
-        ${body.firstLook},
-        ${body.barriers || []},
-        ${body.buildCall},
-        ${body.matching},
-        ${body.blog},
-        ${body.launch},
-        ${body.pay},
-        ${body.wish},
-        NOW()
-      )
+      INSERT INTO canopy_early_access (email, joined_at)
+      VALUES (${email}, NOW())
+      ON CONFLICT (email) DO NOTHING
     `;
 
     return new Response(JSON.stringify({ success: true }), {
@@ -51,7 +46,7 @@ export default async function handler(req: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error: any) {
-    console.error('Ground Check submission failed:', error);
+    console.error('Early Access submission failed:', error);
     return new Response(JSON.stringify({ error: error.message || 'Failed to submit' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

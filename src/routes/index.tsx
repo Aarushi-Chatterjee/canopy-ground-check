@@ -92,6 +92,8 @@ function Canopy() {
   const [earlyOpen, setEarlyOpen] = useState(false);
   const [earlyEmail, setEarlyEmail] = useState("");
   const [earlySubmitted, setEarlySubmitted] = useState(false);
+  const [earlySubmitting, setEarlySubmitting] = useState(false);
+  const [earlyError, setEarlyError] = useState<string | null>(null);
   const set = <K extends keyof Answers>(k: K, v: Answers[K]) =>
     setA((p) => ({ ...p, [k]: v }));
   const toggle = (k: "domains" | "powers" | "barriers", v: string, cap?: number) =>
@@ -119,7 +121,7 @@ function Canopy() {
       <BackgroundArt />
       <Nav
         onGroundCheck={() => setStage(1)}
-        onEarlyAccess={() => { setEarlyOpen(true); setEarlySubmitted(false); setEarlyEmail(""); }}
+        onEarlyAccess={() => { setEarlyOpen(true); setEarlySubmitted(false); setEarlyEmail(""); setEarlyError(null); setEarlySubmitting(false); }}
       />
       {soon && <ComingSoonModal data={soon} onClose={() => setSoon(null)} />}
       {earlyOpen && (
@@ -127,9 +129,29 @@ function Canopy() {
           email={earlyEmail}
           onEmailChange={setEarlyEmail}
           submitted={earlySubmitted}
-          onSubmit={() => {
-            try { localStorage.setItem("canopy_early_access_email", earlyEmail); } catch { /* noop */ }
-            setEarlySubmitted(true);
+          submitting={earlySubmitting}
+          error={earlyError}
+          onSubmit={async () => {
+            setEarlySubmitting(true);
+            setEarlyError(null);
+            try {
+              const res = await fetch("/api/early-access", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: earlyEmail }),
+              });
+              if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                setEarlyError(data.error || "Something went wrong. Please try again.");
+              } else {
+                try { localStorage.setItem("canopy_early_access_email", earlyEmail); } catch { /* noop */ }
+                setEarlySubmitted(true);
+              }
+            } catch {
+              setEarlyError("Network error. Please try again.");
+            } finally {
+              setEarlySubmitting(false);
+            }
           }}
           onClose={() => setEarlyOpen(false)}
         />
@@ -561,11 +583,13 @@ function ComingSoonModal({
 /* ---------- EARLY ACCESS MODAL ---------- */
 
 function EarlyAccessModal({
-  email, onEmailChange, submitted, onSubmit, onClose,
+  email, onEmailChange, submitted, submitting, error, onSubmit, onClose,
 }: {
   email: string;
   onEmailChange: (v: string) => void;
   submitted: boolean;
+  submitting: boolean;
+  error: string | null;
   onSubmit: () => void;
   onClose: () => void;
 }) {
@@ -591,7 +615,7 @@ function EarlyAccessModal({
             <p className="mt-3 text-muted-foreground">
               Leave your email — we'll water your seed the moment CANOPY opens.
             </p>
-            {/* Formspree honeypot — invisible to users, traps bots */}
+            {/* Honeypot — invisible to users, traps bots */}
             <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
             <input
               autoFocus
@@ -599,18 +623,23 @@ function EarlyAccessModal({
               value={email}
               onChange={(e) => onEmailChange(e.target.value)}
               placeholder="you@example.com"
-              className="mt-5 w-full rounded-2xl border-2 border-border bg-background/60 p-4 font-body text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15"
+              disabled={submitting}
+              className="mt-5 w-full rounded-2xl border-2 border-border bg-background/60 p-4 font-body text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15 disabled:opacity-60"
             />
+            {error && (
+              <p className="mt-2 text-xs text-red-500">{error}</p>
+            )}
             <button
               onClick={onSubmit}
-              disabled={!email || !email.includes("@")}
+              disabled={!email || !email.includes("@") || submitting}
               className="text-display mt-4 w-full rounded-full bg-primary py-3 text-sm tracking-wide text-primary-foreground shadow-[0_10px_30px_-10px] shadow-primary/50 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Plant me in →
+              {submitting ? "Planting…" : "Plant me in →"}
             </button>
             <button
               onClick={onClose}
-              className="mt-3 w-full rounded-full py-2 text-xs text-muted-foreground transition hover:text-foreground"
+              disabled={submitting}
+              className="mt-3 w-full rounded-full py-2 text-xs text-muted-foreground transition hover:text-foreground disabled:opacity-40"
             >
               Maybe later
             </button>

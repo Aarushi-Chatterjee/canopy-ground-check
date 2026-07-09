@@ -13,9 +13,9 @@ export default async function handler(req: Request) {
   }
 
   try {
-    const databaseUrl = process.env.DATABASE_URL;
+    const databaseUrl = process.env.EARLY_ACCESS_URL;
     if (!databaseUrl) {
-      console.error('DATABASE_URL is not set');
+      console.error('EARLY_ACCESS_URL is not set');
       return new Response(JSON.stringify({ error: 'Database connection configuration missing' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
